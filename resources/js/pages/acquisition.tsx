@@ -11,6 +11,7 @@ import {
     getFilteredRowModel,
     getPaginationRowModel,
     getSortedRowModel,
+    Row,
     SortingState,
     useReactTable,
     VisibilityState,
@@ -34,7 +35,6 @@ export default function Acquisition() {
     const showFilter = ['Raw Data', 'By Branch', 'By Employee'];
 
     const handleDropdownChange = (value: string) => {
-
         setShowData(value);
 
         router.get(
@@ -50,14 +50,16 @@ export default function Acquisition() {
         );
     };
 
-    const columns = React.useMemo(() => {
-        const colItems = colDefs as ColumnDef<IAcquisition>[];
-        const cols = Object.entries(colItems).map(([key, value]: any) => ({
+    const columns = React.useMemo<ColumnDef<IAcquisition>[]>(() => {
+        const colItems = colDefs as Record<string, string>;
+
+        const cols = Object.entries(colItems).map(([key, header]) => ({
             accessorKey: key,
-            header: value,
-            cell: ({ row }) => <div className="capitalize">{row.getValue(key)}</div>,
+            header,
+            cell: ({ row }: { row: Row<IAcquisition> }) => <div className="capitalize">{row.getValue(key)}</div>,
         }));
-        return cols as ColumnDef<IAcquisition>[];
+
+        return cols;
     }, [colDefs]);
 
     const [showData, setShowData] = React.useState<string>('Raw Data');
@@ -95,9 +97,7 @@ export default function Acquisition() {
                         className="max-w-sm"
                     />
                     <Select onValueChange={handleDropdownChange}>
-                        <SelectTrigger className="float-right w-40">
-                            {showData}
-                        </SelectTrigger>
+                        <SelectTrigger className="float-right w-40">{showData}</SelectTrigger>
                         <SelectContent align="end">
                             {showFilter.map((item) => (
                                 <SelectItem key={item} className="" value={item}>
