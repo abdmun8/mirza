@@ -38,10 +38,9 @@ RUN php artisan config:cache \
  && php artisan view:cache
 
 # Set permissions
+RUN mkdir -p /var/lib/nginx/tmp/fastcgi \
+    && chown -R www-data:www-data /var/lib/nginx
 RUN chown -R www-data:www-data storage bootstrap/cache database
-# RUN mkdir -p /run/nginx \
-#  && chown -R www-data:www-data /var/www \
-#  && adduser -D -g 'www' www
 
 # Copy configs
 COPY docker/nginx.conf /etc/nginx/nginx.conf

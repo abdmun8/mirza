@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: viper-dashboard:latest
     container_name: viper-dashboard
     restart: unless-stopped
     # volumes:
