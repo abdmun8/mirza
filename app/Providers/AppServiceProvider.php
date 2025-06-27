@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Interfaces\AcquisitionRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\AcquisitionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(AcquisitionRepositoryInterface::class, AcquisitionRepository::class);
     }
 
     /**
